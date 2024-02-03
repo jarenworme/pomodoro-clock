@@ -21,7 +21,7 @@ function App() {
     let interval: ReturnType<typeof setInterval>;
     if (sessionRunning){
         interval = setInterval(() => {
-            setTime((prev) => prev - 15);
+            setTime((prev) => prev - 1);
             if(time<=0){
               setIsSession(false);
               setSessionRunning(false);
@@ -32,7 +32,7 @@ function App() {
         }, 1000);
     } else if (breakRunning){
       interval = setInterval(() => {
-          setTime((prev) => prev - 15);
+          setTime((prev) => prev - 1);
           if(time<=0){
             setIsSession(true);
             setBreakRunning(false);
