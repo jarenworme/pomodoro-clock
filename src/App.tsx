@@ -23,45 +23,50 @@ function App() {
         interval = setInterval(() => {
             setTime((prev) => prev - 1);
             if(time<=0){
-              setIsSession(false);
               setSessionRunning(false);
               setTime(breakInit*60);
               setBreakRunning(true);
               beep.play();
+              setIsSession(false);
             }
         }, 1000);
     } else if (breakRunning){
       interval = setInterval(() => {
           setTime((prev) => prev - 1);
           if(time<=0){
-            setIsSession(true);
             setBreakRunning(false);
             setTime(sessionInit*60);
             setSessionRunning(true);
+            setIsSession(true);
           }
       }, 1000);
   }
     return () => clearInterval(interval);
   }, [sessionRunning, breakRunning, sessionInit, time, isSession, breakInit, beep]);
 
-
   const handleInit = (type: string) => {
     if(!hasStarted){
+      if(breakInit<1){
+        setBreakInit(1)
+      }
+      if(sessionInit<1){
+        setSessionInit(1)
+      }
       if(type === "bi"){
-        if(breakInit > 1 && breakInit < 60){
+        if(breakInit < 60){
           setBreakInit(prev => prev + 1);
         }
       } else if(type === "si"){
-        if(sessionInit > 1 && sessionInit < 60){
+        if(sessionInit < 60){
           setSessionInit(prev => prev + 1);
           setTime(prev => prev + 60);
         }
       } else if(type === "bd"){
-        if(breakInit > 1 && breakInit < 60){
+        if(breakInit > 1){
           setBreakInit(prev => prev - 1);
         }
       } else {
-        if(sessionInit > 1 && sessionInit < 60){
+        if(sessionInit > 1){
           setSessionInit(prev => prev - 1);
           setTime(prev => prev - 60);
         }
